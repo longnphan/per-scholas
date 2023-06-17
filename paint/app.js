@@ -1,7 +1,7 @@
 let canvas = document.querySelector("#canvas");
 let inpColor = document.querySelector("#inp-c");
 let button = document.querySelector("button");
-let canvasState = true;
+let canvasState = false;
 let color = "#FF0000";
 
 /*
@@ -40,10 +40,23 @@ e. Set the background color of the target element to the value of the 'color' va
 
 // CODE HERE
 
-canvas.addEventListener("mouseover", function (e) {
-  if (e.target.localName !== "div") return;
-  if (canvasState) e.target.style.backgroundColor = color;
+canvas.addEventListener("mousedown", function (e) {
+  if (e.target.id === "canvas") return;
+  canvasState = true;
+  setInterval(() => {
+    e.target.style.backgroundColor = color;
+  }, 100);
 });
+
+window.addEventListener("mouseup", function (e) {
+  canvasState = false;
+});
+
+// function draw(e) {
+//   while (canvasState) {
+//     e.target.style.backgroundColor = color;
+//   }
+// }
 
 /*
 
@@ -55,9 +68,12 @@ b. In the callback function it should toggle the boolean value of the variable '
 */
 
 // CODE HERE
-canvas.addEventListener("click", function (e) {
-  canvasState = !canvasState;
-});
+
+// ***** To do: delete later??? *********
+// canvas.addEventListener("click", function (e) {
+//   canvasState = !canvasState;
+// });
+
 /*
 
 PART 4: Change the color!
@@ -85,7 +101,7 @@ c. Then call the createCanvas function you created in Part 1
 */
 
 // CODE HERE
-button.addEventListener("click", function(e) {
+button.addEventListener("click", function (e) {
   canvas.innerHTML = "";
   createCanvas();
 });

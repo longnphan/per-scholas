@@ -1,3 +1,8 @@
+// Variables
+const mainEl = document.querySelector("main");
+const topMenuEl = document.querySelector("#top-menu");
+const subMenuEl = document.querySelector("#sub-menu");
+
 // Menu data structure
 var menuLinks = [
   { text: "about", href: "/about" },
@@ -29,75 +34,47 @@ var menuLinks = [
   },
 ];
 
-console.log("Tooooop", menuLinks);
+// Creates <a> elements for top and sub menu.
+function addMenuElements(menuInfoArr, elToCreate, parentEl) {
+  for (let item of menuInfoArr) {
+    let newItem = document.createElement(elToCreate);
+    newItem.setAttribute("href", item.href);
+    newItem.textContent = item.text;
+    parentEl.appendChild(newItem);
+  }
+}
 
-let mainEl = document.querySelector("main");
-console.log(mainEl);
+// Removes "active" class from elements
+function rmActiveClass() {
+  for (let item of topMenuLinks) {
+    item.classList.remove("active");
+  }
+}
 
-mainEl.style.backgroundColor = "var(--main-bg)";
-mainEl.innerHTML = `<h1>SEI Rocks!</h1>`;
-mainEl.classList.add("flex-ctr");
+// Collapse sub-menu
+function collapseSubMenu() {
+  showingSubMenu = false;
+  subMenuEl.style.top = "0";
+}
 
-let topMenuEl = document.querySelector("#top-menu");
-console.log(topMenuEl);
-
-topMenuEl.style.height = "100%";
-topMenuEl.style.backgroundColor = "var(--top-menu-bg)";
-topMenuEl.classList.add("flex-ctr");
-
-menuLinks.forEach(item => {
-  let linkItem = document.createElement("a");
-  linkItem.setAttribute("href", item.href);
-  linkItem.textContent = item.text;
-  topMenuEl.appendChild(linkItem);
-});
-
-// Task 4.0
-const subMenuEl = document.querySelector("#sub-menu");
-
-// Task 4.1
-subMenuEl.style.height = "100%";
-
-// Task 4.2
-subMenuEl.style.backgroundColor = "var(--sub-menu-bg)";
-
-// Task 4.3
-subMenuEl.classList.add("flex-around");
-
-// Task 4.4
-subMenuEl.style.position = "absolute";
-
-// Task 4.5
-subMenuEl.style.top = "0";
-
-// Task 5.0
-// Updated menuLinks array up top.
-
-// Task 5.1
+// Create top menu links.
+addMenuElements(menuLinks, "a", topMenuEl);
 const topMenuLinks = topMenuEl.querySelectorAll("a");
 
-// Task 5.2 & Task 5.3
 topMenuEl.addEventListener("click", function (evt) {
   evt.preventDefault();
-
   if (evt.target.localName !== "a") return;
 
   if (evt.target.classList.contains("active")) {
     evt.target.classList.remove("active");
-    showingSubMenu = false;
-    subMenuEl.style.top = "0";
+    collapseSubMenu();
     return;
   }
 
-  // Task 5.4
-  for (let item of topMenuLinks) {
-    item.classList.remove("active");
-  }
 
-  // Task 5.5
-  if (evt.target) evt.target.classList.add("active");
+  rmActiveClass();
+  evt.target.classList.add("active");
 
-  // Task 5.6
   const subArray = [];
   let textName = evt.target.textContent;
 
@@ -113,8 +90,6 @@ topMenuEl.addEventListener("click", function (evt) {
 
   if (textName === "about") {
     showingSubMenu = false;
-
-    // Task 6.4
     mainEl.innerHTML = `<h1>about</h1>`;
   }
 
@@ -128,35 +103,17 @@ topMenuEl.addEventListener("click", function (evt) {
   }
 });
 
-// Task 5.8
 function buildSubMenu(subArray) {
   subMenuEl.textContent = "";
-
-  for (item of subArray) {
-    let linkItem = document.createElement("a");
-    linkItem.setAttribute("href", item.href);
-    linkItem.textContent = item.text;
-    subMenuEl.appendChild(linkItem);
-  }
+  addMenuElements(subArray, "a", subMenuEl);
 }
 
-// Task 6.0
 subMenuEl.addEventListener("click", function (evt) {
   evt.preventDefault();
   if (evt.target.localName !== "a") return;
+  collapseSubMenu();
+  rmActiveClass();
 
-  // Task 6.1
-  showingSubMenu = false;
-  subMenuEl.style.top = "0";
-
-  // Task 6.2
-  for (let item of topMenuLinks) {
-    item.classList.remove("active");
-  }
-
-  // Task 6.3
+  // Display link text to <main>.
   mainEl.textContent = evt.target.textContent;
-
-  // Task 6.4
-  // updated on line 118
 });

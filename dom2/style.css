@@ -65,3 +65,19 @@ nav a.active {
   background-color: var(--sub-menu-bg);
   color: var(--main-bg);
 }
+
+main {
+  background-color: var(--main-bg);
+}
+
+#top-menu {
+  background-color: var(--top-menu-bg);
+  height: 100%;
+}
+
+#sub-menu {
+  background-color: var(--sub-menu-bg);
+  height: 100%;
+  position: absolute;
+  top: 0;
+}

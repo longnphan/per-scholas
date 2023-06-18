@@ -2,6 +2,7 @@
 const mainEl = document.querySelector("main");
 const topMenuEl = document.querySelector("#top-menu");
 const subMenuEl = document.querySelector("#sub-menu");
+let subArray = [];
 
 // Menu data structure
 var menuLinks = [
@@ -55,6 +56,17 @@ function collapseSubMenu() {
   subMenuEl.style.top = "0";
 }
 
+function updateSubArray(linkName) {
+  subArray = [];
+  for (let info of menuLinks) {
+    if (info.text === linkName && info.subLinks) {
+      showingSubMenu = true;
+      for (let sub of info.subLinks) subArray.push(sub);
+      break;
+    }
+  }
+}
+
 createMenuElements(menuLinks, "a", topMenuEl);
 const topMenuLinks = topMenuEl.querySelectorAll("a");
 
@@ -71,19 +83,13 @@ topMenuEl.addEventListener("click", function (evt) {
   rmActiveClass();
   evt.target.classList.add("active");
 
-  const subArray = [];
   let linkName = evt.target.textContent;
 
   if (linkName === "about") {
     showingSubMenu = false;
     mainEl.innerHTML = `<h1>about</h1>`;
   } else {
-    for (let info of menuLinks) {
-      if (info.text === linkName && info.subLinks) {
-        showingSubMenu = true;
-        for (let sub of info.subLinks) subArray.push(sub);
-      }
-    }
+    updateSubArray(linkName);
   }
 
   if (showingSubMenu) {

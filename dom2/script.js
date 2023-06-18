@@ -2,6 +2,7 @@
 const mainEl = document.querySelector("main");
 const topMenuEl = document.querySelector("#top-menu");
 const subMenuEl = document.querySelector("#sub-menu");
+let subArray = [];
 
 // Menu data structure
 var menuLinks = [
@@ -35,7 +36,7 @@ var menuLinks = [
 ];
 
 // Creates <a> elements for top and sub menu.
-function addMenuElements(menuInfoArr, elToCreate, parentEl) {
+function createMenuElements(menuInfoArr, elToCreate, parentEl) {
   for (let item of menuInfoArr) {
     let newItem = document.createElement(elToCreate);
     newItem.setAttribute("href", item.href);
@@ -44,21 +45,29 @@ function addMenuElements(menuInfoArr, elToCreate, parentEl) {
   }
 }
 
-// Removes "active" class from elements
 function rmActiveClass() {
   for (let item of topMenuLinks) {
     item.classList.remove("active");
   }
 }
 
-// Collapse sub-menu
 function collapseSubMenu() {
   showingSubMenu = false;
   subMenuEl.style.top = "0";
 }
 
-// Create top menu links.
-addMenuElements(menuLinks, "a", topMenuEl);
+function updateSubArray(linkName) {
+  subArray = [];
+  for (let info of menuLinks) {
+    if (info.text === linkName && info.subLinks) {
+      showingSubMenu = true;
+      for (let sub of info.subLinks) subArray.push(sub);
+      break;
+    }
+  }
+}
+
+createMenuElements(menuLinks, "a", topMenuEl);
 const topMenuLinks = topMenuEl.querySelectorAll("a");
 
 topMenuEl.addEventListener("click", function (evt) {
@@ -71,41 +80,29 @@ topMenuEl.addEventListener("click", function (evt) {
     return;
   }
 
-
   rmActiveClass();
   evt.target.classList.add("active");
 
-  const subArray = [];
-  let textName = evt.target.textContent;
+  let linkName = evt.target.textContent;
 
-  if (textName !== "about") {
-    for (let info of menuLinks) {
-      if (info.text === textName && info.subLinks) {
-        showingSubMenu = true;
-
-        for (let sub of info.subLinks) subArray.push(sub);
-      }
-    }
-  }
-
-  if (textName === "about") {
+  if (linkName === "about") {
     showingSubMenu = false;
     mainEl.innerHTML = `<h1>about</h1>`;
+  } else {
+    updateSubArray(linkName);
   }
 
-  // Task 5.7
   if (showingSubMenu) {
     buildSubMenu(subArray);
     subMenuEl.style.top = "100%";
   } else {
-    showingSubMenu = false;
-    subMenuEl.style.top = "0";
+    collapseSubMenu();
   }
 });
 
 function buildSubMenu(subArray) {
   subMenuEl.textContent = "";
-  addMenuElements(subArray, "a", subMenuEl);
+  createMenuElements(subArray, "a", subMenuEl);
 }
 
 subMenuEl.addEventListener("click", function (evt) {

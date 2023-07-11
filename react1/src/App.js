@@ -1,14 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./index.css";
 import HomePage from "./components/HomePage";
 import { data } from "./data";
 
 function App() {
-  const [employeeList, setEmployeeList] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [employeeList, setEmployeeList] = useState(data);
+  const [filteredEmployeeList, setFilteredEmployeeList] =
+    useState(employeeList);
 
-  useEffect(() => setEmployeeList(data), []);
+  const handleSearchInput = e => {
+    setSearchInput(e.target.value);
+  };
 
-  return <HomePage />;
+  return <HomePage handleSearchInput={handleSearchInput} />;
 }
 
 export default App;

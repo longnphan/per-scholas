@@ -1,0 +1,38 @@
+body {
+    height: 100vh;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.blue-box {
+    background-color: blue;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.blue-box-medium {
+    background-color: black;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    /* border: 1px solid white; */
+}
+
+.blue-box-small {
+    background-color: purple;
+    height: 2px;
+    width: 2px;
+    /* display: flex;
+    flex-direction: row;
+    justify-content: center; */
+    /* border: 1px solid white; */
+}

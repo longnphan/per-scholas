@@ -1,9 +1,16 @@
-import React from 'react'
+import "./styles.css";
+import { useState } from "react";
+import { data } from "./data";
+import Student from "./components/Student";
 
 function App() {
+  const [studentData, setStudentData] = useState(data);
+
   return (
-    <div>App</div>
-  )
+    <div>
+      <Student studentData={studentData} />
+    </div>
+  );
 }
 
-export default App
+export default App;

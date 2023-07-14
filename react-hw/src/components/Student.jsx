@@ -1,14 +1,11 @@
-import "./Student.css";
 import StudentItem from "./StudentItem";
 
 function Student({ studentData }) {
-  return (
-    <div className="student-card-container">
-      {studentData.map(student => (
-        <StudentItem student={student} />
-      ))}
-    </div>
-  );
+  const renderStudent = studentData.map((student) => (
+    <StudentItem key={crypto.randomUUID()} student={student} />
+  ));
+
+  return <>{renderStudent}</>;
 }
 
 export default Student;
